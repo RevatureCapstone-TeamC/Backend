@@ -7,7 +7,15 @@
 /*******************************************************************************
    Drop Constraints
 ********************************************************************************/
+ALTER TABLE [ecd].[Wishlist] DROP CONSTRAINT [fk_ProductId];
+GO
+ALTER TABLE [ecd].[Wishlist] DROP CONSTRAINT [fk_UserId];
+GO
 
+ALTER TABLE [ecd].[Deals] DROP CONSTRAINT [fk_Product_Id];
+GO
+ALTER TABLE [ecd].[Deals] DROP CONSTRAINT [fk_User_Id];
+GO
 /*******************************************************************************
    Drop Tables
 ********************************************************************************/
@@ -125,27 +133,27 @@
       PRIMARY KEY ([DealId]);
    GO
 
-    ALTER TABLE [ecd].[Wishlist] 
-        ADD CONSTRAINT [ProductId] 
-        FOREIGN KEY ([fk_ProductId])
-        REFERENCES [ecd].[Products]([ProductId]);
-    GO
-     ALTER TABLE [ecd].[Wishlist] 
-        ADD CONSTRAINT [UserId] 
-        FOREIGN KEY ([fk_UserId])
-        REFERENCES [ecd].[Users]([UserId]);
-    GO
+   ALTER TABLE [ecd].[Wishlist] 
+      ADD CONSTRAINT [ProductId] 
+      FOREIGN KEY ([fk_ProductId])
+      REFERENCES [ecd].[Products]([ProductId]);
+   GO
+   ALTER TABLE [ecd].[Wishlist] 
+      ADD CONSTRAINT [UserId] 
+      FOREIGN KEY ([fk_UserId])
+      REFERENCES [ecd].[Users]([UserId]);
+   GO
 
-    ALTER TABLE [ecd].[Deals] 
-        ADD CONSTRAINT [Product_Id] 
-        FOREIGN KEY ([fk_Product_Id])
-        REFERENCES [ecd].[Products]([ProductId]);
-    GO
-     ALTER TABLE [ecd].[Deals] 
-        ADD CONSTRAINT [User_Id] 
-        FOREIGN KEY ([fk_User_Id])
-        REFERENCES [ecd].[Users]([UserId]);
-    GO
+   ALTER TABLE [ecd].[Deals] 
+      ADD CONSTRAINT [Product_Id] 
+      FOREIGN KEY ([fk_Product_Id])
+      REFERENCES [ecd].[Products]([ProductId]);
+   GO
+   ALTER TABLE [ecd].[Deals] 
+      ADD CONSTRAINT [User_Id] 
+      FOREIGN KEY ([fk_User_Id])
+      REFERENCES [ecd].[Users]([UserId]);
+   GO
 
 /*******************************************************************************
    Seed Database
@@ -167,3 +175,6 @@
          ('Garuda Arch Linux OS', 999, 0.0, 'Yeah, it''s a free OS. Yes, it''s real. Yes, you should check it out.', 'https://www.addictivetips.com/app/uploads/2021/11/garuda-desktop-installer.png'),
          ('Corsair K70 Mk II', 6, 240.00, 'High sensitivity keyboard for gamers and professionals alike.', 'https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6491/6491897_sd.jpg');
    GO
+
+SELECT * FROM [ecd].Users;
+SELECT * FROM [ecd].Products;

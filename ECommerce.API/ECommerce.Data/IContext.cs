@@ -11,10 +11,10 @@ namespace ECommerce.Models
         //public void DenotePatientModified(Patient pat);
         //public Task CommitChangesAsync();
 
-        public DbSet<Product> Products { get; set; }
-        public DbSet<User> Users { get; set; }
-        public void DenoteProductModified(Product p);
-        public void DenoteUserModified(User u);
-        public Task CommitChangesAsync();
+        //public DbSet<Product> Products { get; set; }
+        //public DbSet<User> Users { get; set; }
+        //public void DenoteProductModified(Product p);
+        //public void DenoteUserModified(User u);
+        //public Task CommitChangesAsync();
     }
 }

@@ -18,6 +18,12 @@
    DROP TABLE [ecd].[Users];
    GO
 
+   DROP TABLE [ecd].[Wishlist];
+   GO
+
+   DROP TABLE [ecd].[Deals];
+   GO
+
 /*******************************************************************************
    Drop Schema
 ********************************************************************************/
@@ -68,6 +74,14 @@
         prod_id (fk)
     }
    **/
+   
+   CREATE TABLE [ecd].[Wishlist]
+   (
+      [WishlistId] INT IDENTITY(1,1) NOT NULL,
+      [fk_ProductId] INT NOT NULL,
+      [fk_UserId] INT NOT NULL
+   );
+   GO
 
    /**
    CREATE Table for deals
@@ -77,9 +91,15 @@
         prod_id (fk),
         sale_amount DECIMAL(19,4)
     }
-
-
    **/
+
+   CREATE TABLE [ecd].[Deals]
+   (
+      [DealId] INT IDENTITY(1,1) NOT NULL,
+      [fk_Product_Id] INT NOT NULL,
+      [fk_User_Id] INT NOT NULL
+   );
+   GO
 
 /*******************************************************************************
    Create Primary Key References
@@ -94,6 +114,38 @@
       ADD CONSTRAINT [PK_ProductId]
       PRIMARY KEY ([ProductId]);
    GO
+
+   ALTER TABLE [ecd].[Wishlist]
+      ADD CONSTRAINT [PK_WishlistId]
+      PRIMARY KEY ([WishlistId]);
+   GO
+
+   ALTER TABLE [ecd].[Deals]
+      ADD CONSTRAINT [PK_DealId]
+      PRIMARY KEY ([DealId]);
+   GO
+
+    ALTER TABLE [ecd].[Wishlist] 
+        ADD CONSTRAINT [ProductId] 
+        FOREIGN KEY ([fk_ProductId])
+        REFERENCES [ecd].[Products]([ProductId]);
+    GO
+     ALTER TABLE [ecd].[Wishlist] 
+        ADD CONSTRAINT [UserId] 
+        FOREIGN KEY ([fk_UserId])
+        REFERENCES [ecd].[Users]([UserId]);
+    GO
+
+    ALTER TABLE [ecd].[Deals] 
+        ADD CONSTRAINT [Product_Id] 
+        FOREIGN KEY ([fk_Product_Id])
+        REFERENCES [ecd].[Products]([ProductId]);
+    GO
+     ALTER TABLE [ecd].[Deals] 
+        ADD CONSTRAINT [User_Id] 
+        FOREIGN KEY ([fk_User_Id])
+        REFERENCES [ecd].[Users]([UserId]);
+    GO
 
 /*******************************************************************************
    Seed Database

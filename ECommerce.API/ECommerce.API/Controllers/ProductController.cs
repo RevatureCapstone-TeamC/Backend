@@ -62,12 +62,14 @@ namespace ECommerce.API.Controllers
                 foreach(Product item in purchaseProducts)
                 {
                     /* Product tmp = await _repo.GetProductByIdAsync(item.id); */
-                    Product tmp = await _context.Products.FindAsync(item.ProductId);
+                    var tmp = _context.Products.SingleOrDefault(p => 
+                        p.ProductId == item.ProductId);
                     if ((tmp.ProductQuantity - item.ProductQuantity) >= 0)
                     {
                         /* await _repo.ReduceInventoryByIdAsync(item.ProductId, item.ProductQuantity); */
                         // TODO : Implement some method to update the stock based on purchased stuff in cart
-
+                        tmp.ProductQuantity -= item.ProductQuantity;
+                        await _context.SaveChangesAsync();
                         /* products.Add(await _repo.GetProductByIdAsync(item.id)); */
                         products.Add(await _context.Products.FindAsync(item.ProductId));
                     }

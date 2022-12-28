@@ -30,14 +30,14 @@ namespace ECommerce.API.Controllers
             
             /* return Ok(await _repo.CreateNewUserAndReturnUserIdAsync(newUser)); */
             // TODO : Context create user async
+            newUser.UserId = null;
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
                 
             //_logger.LogInformation("auth/register completed successfully");
-            return CreatedAtAction("GetUser", new User {UserId = newUser.UserId}, newUser);
+            return CreatedAtAction("GetUser", new {UserEmail = newUser.UserEmail}, newUser);
             
         }
-
 
         [Route("auth/login")]
         [HttpPost]
@@ -46,7 +46,7 @@ namespace ECommerce.API.Controllers
             _logger.LogInformation("auth/login triggered");
             
             /* return Ok(await _repo.GetUserLoginAsync(LR.password, LR.email)); */
-            // TODO : Context get user async, return User, produce status
+            
             var response = _context.Users.Where(u => u.UserEmail==LR.UserEmail 
                 && u.UserPassword == LR.UserPassword).FirstOrDefault();
             if (response is null) {

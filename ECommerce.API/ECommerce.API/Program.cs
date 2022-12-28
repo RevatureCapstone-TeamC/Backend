@@ -1,13 +1,16 @@
 using ECommerce.Data;
+using ECommerce.Models;
 using Microsoft.AspNetCore.DataProtection.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // Add services to the container.
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
+    options.AddPolicy( name: MyAllowSpecificOrigins,
         policy =>
         {
             policy.WithOrigins("http://localhost:4200")
@@ -19,9 +22,13 @@ builder.Services.AddCors(options =>
 
 var connectionString = builder.Configuration["ECommerce:ConnectionString"];
 
-builder.Services.AddSingleton<IRepository>
-    (sp => new SQLRepository(connectionString, sp.GetRequiredService<ILogger<SQLRepository>>()));
+/* builder.Services.AddSingleton<IRepository>
+    (sp => new SQLRepository(connectionString, sp.GetRequiredService<ILogger<SQLRepository>>())); */
+builder.Services.AddDbContext<CommerceContext>( opts => 
+    opts.UseSqlServer(connectionString)
+);
 
+builder.Services.AddMvc().AddControllersAsServices();
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -37,7 +44,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
 

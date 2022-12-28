@@ -21,6 +21,7 @@ namespace ECommerce.API.Controllers
             this._logger = logger;
         }
 
+        // * Create a user, returns either BadRequest (400) or CreatedAtAction (201) response
         [Route("auth/register")]
         [HttpPost]
         public async Task<ActionResult> Register([FromBody] User newUser)
@@ -30,17 +31,16 @@ namespace ECommerce.API.Controllers
             {
                 /* return Ok(await _repo.CreateNewUserAndReturnUserIdAsync(newUser)); */
                 // TODO : Context create user async
-                User tmp = _context.Users.Add(newUser);
+                _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
-
                 
-
                 _logger.LogInformation("auth/register completed successfully");
+                return CreatedAtAction("GetUser", new User {UserId = newUser.UserId}, newUser);
             }
             catch
             {
-                return BadRequest();
                 _logger.LogWarning("auth/register completed with errors");
+                return BadRequest();
             }
         }
 
@@ -50,19 +50,18 @@ namespace ECommerce.API.Controllers
         public async Task<ActionResult<User>> Login([FromBody] User LR)
         {
             _logger.LogInformation("auth/login triggered");
-            try
-            {
-                /* return Ok(await _repo.GetUserLoginAsync(LR.password, LR.email)); */
-                // TODO : Context get user async, return User, produce status
-                
-                await _context.SaveChangesAsync();
-                _logger.LogInformation("auth/login completed successfully");
+            
+            /* return Ok(await _repo.GetUserLoginAsync(LR.password, LR.email)); */
+            // TODO : Context get user async, return User, produce status
+            var response = _context.Users.Where(u => u.UserEmail==LR.UserEmail 
+                && u.UserPassword == LR.UserPassword).FirstOrDefault();
+            if (response is null) {
+                _logger.LogInformation("auth/login returned with an error");
+                return BadRequest("Invalid credentials");
             }
-            catch
-            {
-                return BadRequest();
-                _logger.LogWarning("auth/login completed with errors");
-            }
+
+            _logger.LogInformation("auth/login completed successfully");
+            return response;
         }
 
         [Route("auth/logout")]
@@ -70,9 +69,12 @@ namespace ECommerce.API.Controllers
         public ActionResult Logout()
         { 
             _logger.LogInformation("auth/logout triggered");
-            return Ok();
             _logger.LogInformation("auth/logout completed successfully");
+            return Ok();
         }
 
+        private bool UserExists(int id){
+            return _context.Users.Any(e => e.UserId == id);
+        }
     }
 }

@@ -7,10 +7,10 @@ public class CommerceContext : DbContext
     public CommerceContext(DbContextOptions<CommerceContext> options) : base(options)
     {}
 
-    public DbSet<Product> Products { get; set; }
-    public DbSet<User> Users { get; set; }
-    public DbSet<Wishlist> Wishlists { get; set; }
-    public DbSet<Deal> Deals { get; set; }
+    public DbSet<Product>? Products { get; set; }
+    public DbSet<User>? Users { get; set; }
+    public DbSet<Wishlist>? Wishlists { get; set; }
+    public DbSet<Deal>? Deals { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelbuilder){
         modelbuilder.Entity<Product>(entity =>

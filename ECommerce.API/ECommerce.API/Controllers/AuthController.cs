@@ -10,12 +10,14 @@ namespace ECommerce.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IRepository _repo;
+        /* private readonly IRepository _repo; */
+        private readonly CommerceContext _context;
         private readonly ILogger<AuthController> _logger;
 
-        public AuthController(IRepository repo, ILogger<AuthController> logger)
+        public AuthController(CommerceContext context, ILogger<AuthController> logger)
         {
-            this._repo = repo;
+            /* this._repo = repo; */
+            this._context = context;
             this._logger = logger;
         }
 
@@ -26,7 +28,13 @@ namespace ECommerce.API.Controllers
             _logger.LogInformation("auth/register triggered");
             try
             {
-                return Ok(await _repo.CreateNewUserAndReturnUserIdAsync(newUser));
+                /* return Ok(await _repo.CreateNewUserAndReturnUserIdAsync(newUser)); */
+                // TODO : Context create user async
+                User tmp = _context.Users.Add(newUser);
+                await _context.SaveChangesAsync();
+
+                
+
                 _logger.LogInformation("auth/register completed successfully");
             }
             catch
@@ -39,12 +47,15 @@ namespace ECommerce.API.Controllers
 
         [Route("auth/login")]
         [HttpPost]
-        public async Task<ActionResult<User>> Login([FromBody] UserDTO LR)
+        public async Task<ActionResult<User>> Login([FromBody] User LR)
         {
             _logger.LogInformation("auth/login triggered");
             try
             {
-                return Ok(await _repo.GetUserLoginAsync(LR.password, LR.email));
+                /* return Ok(await _repo.GetUserLoginAsync(LR.password, LR.email)); */
+                // TODO : Context get user async, return User, produce status
+                
+                await _context.SaveChangesAsync();
                 _logger.LogInformation("auth/login completed successfully");
             }
             catch

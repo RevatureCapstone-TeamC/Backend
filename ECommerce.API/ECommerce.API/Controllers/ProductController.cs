@@ -33,7 +33,6 @@ namespace ECommerce.API.Controllers
 
             return product;
             /* _logger.LogInformation("api/product/{id} completed successfully"); */
-          
         }
 
         [HttpGet]
@@ -49,7 +48,7 @@ namespace ECommerce.API.Controllers
             catch
             {
                 return BadRequest();
-                _logger.LogWarning("api/product completed with errors");
+                /* _logger.LogWarning("api/product completed with errors"); */
             }
         }
 
@@ -67,7 +66,7 @@ namespace ECommerce.API.Controllers
                     if ((tmp.ProductQuantity - item.ProductQuantity) >= 0)
                     {
                         /* await _repo.ReduceInventoryByIdAsync(item.ProductId, item.ProductQuantity); */
-                        // TODO : 
+                        // TODO : Implement some method to update the stock based on purchased stuff in cart
 
                         /* products.Add(await _repo.GetProductByIdAsync(item.id)); */
                         products.Add(await _context.Products.FindAsync(item.ProductId));
@@ -78,16 +77,13 @@ namespace ECommerce.API.Controllers
                     }
                 }
                 return Ok(products);
-                _logger.LogInformation("PATCH api/product completed successfully");
+                /* _logger.LogInformation("PATCH api/product completed successfully"); */
             }
             catch
             {
                 return BadRequest();
-                _logger.LogWarning("PATCH api/product completed with errors");
-
+                /* _logger.LogWarning("PATCH api/product completed with errors"); */
             }
-
-
         }
 
     }

@@ -11,6 +11,7 @@ public class CommerceContext : DbContext
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Wishlist> Wishlists { get; set; } = null!;
     public DbSet<Deal> Deals { get; set; } = null!;
+    public DbSet<Cart> Carts { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelbuilder){
         modelbuilder.Entity<Product>(entity =>
@@ -21,5 +22,7 @@ public class CommerceContext : DbContext
             { entity.ToTable("Wishlist", "ecd") ;} );
         modelbuilder.Entity<Deal>(entity => 
             { entity.ToTable("Deals", "ecd") ; });
+        modelbuilder.Entity<Cart>(entity => 
+            { entity.ToTable("Cart", "ecd"); });
     }
 }

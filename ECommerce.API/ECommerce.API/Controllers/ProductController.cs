@@ -1,4 +1,4 @@
-﻿using ECommerce.Data;
+﻿//using ECommerce.Data;
 using ECommerce.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,7 @@ namespace ECommerce.API.Controllers
     public class ProductController : ControllerBase
     {
         /* private readonly IRepository _repo; */
-        private CommerceContext _context;
+        private readonly CommerceContext _context;
         private readonly ILogger<ProductController> _logger;
 
         public ProductController(CommerceContext context, ILogger<ProductController> logger)

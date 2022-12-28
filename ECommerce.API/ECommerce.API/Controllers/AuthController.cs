@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor.Infrastructure;
 using ECommerce.Models;
-using ECommerce.Data;
+//using ECommerce.Data;
 
 namespace ECommerce.API.Controllers
 {
@@ -27,21 +27,15 @@ namespace ECommerce.API.Controllers
         public async Task<ActionResult> Register([FromBody] User newUser)
         {
             _logger.LogInformation("auth/register triggered");
-            try
-            {
-                /* return Ok(await _repo.CreateNewUserAndReturnUserIdAsync(newUser)); */
-                // TODO : Context create user async
-                _context.Users.Add(newUser);
-                await _context.SaveChangesAsync();
+            
+            /* return Ok(await _repo.CreateNewUserAndReturnUserIdAsync(newUser)); */
+            // TODO : Context create user async
+            _context.Users.Add(newUser);
+            await _context.SaveChangesAsync();
                 
-                _logger.LogInformation("auth/register completed successfully");
-                return CreatedAtAction("GetUser", new User {UserId = newUser.UserId}, newUser);
-            }
-            catch
-            {
-                _logger.LogWarning("auth/register completed with errors");
-                return BadRequest();
-            }
+            //_logger.LogInformation("auth/register completed successfully");
+            return CreatedAtAction("GetUser", new User {UserId = newUser.UserId}, newUser);
+            
         }
 
 
@@ -73,6 +67,7 @@ namespace ECommerce.API.Controllers
             return Ok();
         }
 
+        //! Not sure if this is still needed given we're not doing any profile stuff
         private bool UserExists(int id){
             return _context.Users.Any(e => e.UserId == id);
         }

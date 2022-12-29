@@ -39,14 +39,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-           app-settings-json: |
-            [
-                {
-                    "name": "ECommerce",
-                    "value": "${{ secrets.DB_CONNECTION_STRING }}",
-                    "slotSetting": false
-                }
-            ]
+
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v2
         with:

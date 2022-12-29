@@ -30,6 +30,8 @@ namespace ECommerce.API.Controllers
             
             /* return Ok(await _repo.CreateNewUserAndReturnUserIdAsync(newUser)); */
             newUser.UserId = null;
+            newUser.IfAdmin = 0;
+
             try {
                 _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();

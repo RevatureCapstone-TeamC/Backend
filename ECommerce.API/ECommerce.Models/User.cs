@@ -10,6 +10,7 @@ namespace ECommerce.Models
         public string? UserLastName { get; set; }
         public string? UserEmail { get; set; }
         public string? UserPassword { get; set; }
+        public int? IfAdmin { get; set; }
 
         /* public User() { } */
 

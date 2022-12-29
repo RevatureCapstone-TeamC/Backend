@@ -29,8 +29,7 @@ namespace ECommerce.API.Controllers
             _logger.LogInformation("auth/register triggered");
             
             /* return Ok(await _repo.CreateNewUserAndReturnUserIdAsync(newUser)); */
-            // TODO : Context create user async
-            newUser.UserId = null;
+            newUser.UserId = 0;
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
                 

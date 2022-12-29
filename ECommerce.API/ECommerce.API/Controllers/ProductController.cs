@@ -12,19 +12,17 @@ namespace ECommerce.API.Controllers
     {
         /* private readonly IRepository _repo; */
         private readonly CommerceContext _context;
-        private readonly ILogger<ProductController> _logger;
 
-        public ProductController(CommerceContext context, ILogger<ProductController> logger)
+        public ProductController(CommerceContext context)
         {
             this._context = context;
-            this._logger = logger;
         }
 
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetOne(int id)
         {
-            _logger.LogInformation("api/product/{id} triggered");
+            /* _logger.LogInformation("api/product/{id} triggered"); */
          
             /* return Ok(await _repo.GetProductByIdAsync(id)); */
             var product = await _context.Products.FindAsync(id);
@@ -38,7 +36,7 @@ namespace ECommerce.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetAll()
         {
-            _logger.LogInformation("api/product triggered");
+            /* _logger.LogInformation("api/product triggered"); */
             try
             {
                 /* return Ok(await _repo.GetAllProductsAsync());
@@ -55,7 +53,7 @@ namespace ECommerce.API.Controllers
         [HttpPatch]
         public async Task<ActionResult<Product[]>> Purchase([FromBody] IEnumerable<Product> purchaseProducts)
         {
-            _logger.LogInformation("PATCH api/product triggered");
+            /* _logger.LogInformation("PATCH api/product triggered"); */
             List<Product> products = new List<Product>();
             try
             {
@@ -67,7 +65,6 @@ namespace ECommerce.API.Controllers
                     if ((tmp.ProductQuantity - item.ProductQuantity) >= 0)
                     {
                         /* await _repo.ReduceInventoryByIdAsync(item.ProductId, item.ProductQuantity); */
-                        // TODO : Implement some method to update the stock based on purchased stuff in cart
                         tmp.ProductQuantity -= item.ProductQuantity;
                         await _context.SaveChangesAsync();
                         /* products.Add(await _repo.GetProductByIdAsync(item.id)); */

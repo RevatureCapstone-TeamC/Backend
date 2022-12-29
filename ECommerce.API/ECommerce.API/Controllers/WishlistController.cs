@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ECommerce.Models;
+using System.Net.WebSockets;
 
 namespace ECommerce.API.Controllers
 {
@@ -28,27 +29,67 @@ namespace ECommerce.API.Controllers
             {
                 return NotFound();
             }
+
             return await _context.Wishlist.ToListAsync();
         }
 
         // GET: api/Wishlists/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Wishlist>> GetWishlist(int? id)
+        public async Task<ActionResult<IEnumerable<Wishlist>>> GetWishlistProducts(int? id)
         {
             if (_context.Wishlist == null)
             {
                 return NotFound();
             }
-            var wishlist = await _context.Wishlist.FindAsync(id);
+
+            var wishlist = await _context.Wishlist.Where(x => x.fk_UserId == id).ToListAsync();
+            var products = await _context.Products.ToListAsync();
+            
+
+            //var intersection = wishlist.IntersectBy(products.Select(x => x.ProductId), (y) => y.fk_ProductId).ToList();
+            //intersection.ForEach(x => x.Products = products.Where(y => y.ProductId == x.fk_ProductId));
+
+            var intersection = (from w in wishlist
+                                join p in products on w.fk_ProductId equals p.ProductId
+                                select new Wishlist
+                                {
+                                    fk_ProductId = p.ProductId,
+                                    fk_UserId = id,
+                                    Products = new Product (p.ProductId, p.ProductName, p.ProductQuantity, p.ProductPrice, p.ProductDescription, p.ProductImage)
+                                }
+                                ).ToList();
 
             if (wishlist == null)
             {
                 return NotFound();
             }
 
-            return wishlist;
+            return intersection;
         }
+        /*
+        // GET: api/Wishlists/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<Wishlist>>> GetWishlistId(int? id, Wishlist wishlist)
+        {
+            if (_context.Wishlist == null)
+            {
+                return NotFound();
+            }
 
+            //var wishlists = await _context.Wishlist.Where(x => x.fk_UserId == id).ToListAsync();
+            var wishlistItems = await _context.Wishlist.Where(x => (x.fk_UserId == wishlist.fk_UserId && x.fk_ProductId == wishlist.fk_ProductId)).ToListAsync();
+            //var products = await _context.Products.ToListAsync();
+
+            //var intersection = wishlist.IntersectBy(products.Select(x => x.ProductId), (y) => y.fk_ProductId).ToList();
+
+            if (wishlist == null)
+            {
+                return NotFound();
+            }
+
+            return wishlistItems;
+        }
+        */
         // PUT: api/Wishlists/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

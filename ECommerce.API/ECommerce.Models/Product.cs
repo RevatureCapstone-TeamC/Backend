@@ -14,14 +14,14 @@ namespace ECommerce.Models
 
         /* public Product() { } */
 
-        /* public Product(int id, string name, int quantity, decimal price, string description, string image)
+        public Product(int? id, string? name, int? quantity, decimal? price, string? description, string? image)
         {
-            this.id = id;
-            this.name = name;
-            this.quantity = quantity;
-            this.price = price;
-            this.description = description;
-            this.image = image;
-        } */
+            ProductId = id;
+            ProductName = name;
+            ProductQuantity = quantity;
+            ProductPrice = price;
+            ProductDescription = description;
+            ProductImage = image;
+        }
     }
 }

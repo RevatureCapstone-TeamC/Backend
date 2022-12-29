@@ -7,4 +7,6 @@ public class Wishlist
     public int? WishlistId { get; set; }
     public int? fk_ProductId { get; set; }
     public int? fk_UserId { get; set; }
+
+    public Product? Products { get; set; }  
 }

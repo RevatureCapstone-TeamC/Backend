@@ -64,7 +64,8 @@ GO
       [UserFirstName] NVARCHAR(255) NOT NULL,
       [UserLastName] NVARCHAR(255) NOT NULL,
       [UserEmail] NVARCHAR(255) UNIQUE NOT NULL,
-      [UserPassword] NVARCHAR(255) UNIQUE NOT NULL
+      [UserPassword] NVARCHAR(255) UNIQUE NOT NULL,
+      CHECK ([UserEmail] LIKE '%@%.%')
    );
    GO
 

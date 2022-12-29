@@ -26,8 +26,8 @@ public class DealController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Deal>> GetDeal(int dealId){
-        var deal = await _context.Deals.FindAsync(dealId);
+    public async Task<ActionResult<Deal>> GetDeal(int id){
+        var deal = await _context.Deals.FindAsync(id);
 
         if (deal is null) return NotFound();
 
@@ -37,11 +37,10 @@ public class DealController : ControllerBase
 
     [HttpPost]
     public async Task<IActionResult> CreateDeal(Deal deal){
-        deal.DealId = 0;
+        deal.DealId = null;
 
         //Product has to be valid
-        ProductController tmpPC = new(_context);
-        if (tmpPC.GetOne((int)deal.Product_Id).Status is Microsoft.AspNetCore.Mvc.NotFoundResult)
+        if (_context.Products.Find(deal.fk_Product_Id) is null)
             return BadRequest("This product does not exist");
         
         //Price can't be 0 or less
@@ -51,7 +50,7 @@ public class DealController : ControllerBase
         _context.Deals.Add(deal);
         await _context.SaveChangesAsync();
 
-        return Ok();
+        return Ok(deal);
     }
 
     [HttpPut]

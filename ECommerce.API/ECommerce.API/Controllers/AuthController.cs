@@ -29,12 +29,16 @@ namespace ECommerce.API.Controllers
             _logger.LogInformation("auth/register triggered");
             
             /* return Ok(await _repo.CreateNewUserAndReturnUserIdAsync(newUser)); */
-            newUser.UserId = 0;
-            _context.Users.Add(newUser);
-            await _context.SaveChangesAsync();
-                
+            newUser.UserId = null;
+            try {
+                _context.Users.Add(newUser);
+                await _context.SaveChangesAsync();
+            }
+            catch {
+                return BadRequest();
+            }
             //_logger.LogInformation("auth/register completed successfully");
-            return CreatedAtAction("GetUser", new {UserEmail = newUser.UserEmail}, newUser);
+            return Ok(newUser);
             
         }
 

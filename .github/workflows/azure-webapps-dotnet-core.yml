@@ -44,9 +44,6 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
-
-        uses: azure/appservice-settings@v1
-        with:
           app-name: 'webapi-p3'
           slot-name: 'Production'  # Optional and needed only if the settings have to be configured on the specific deployment slot
            app-settings-json: |

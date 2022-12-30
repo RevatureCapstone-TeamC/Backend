@@ -69,7 +69,7 @@ public class DealController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteDeal(int id){
         var deal = await _context.Deals.FindAsync(id);
         

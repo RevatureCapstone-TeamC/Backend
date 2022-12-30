@@ -35,7 +35,7 @@ namespace ECommerce.API.Controllers
 
         // GET: api/Wishlists/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<Wishlist>>> GetWishlistProducts(int? id)
+        public async Task<ActionResult<IEnumerable<Product>>> GetWishlistProducts(int? id)
         {
             if (_context.Wishlist == null)
             {
@@ -44,52 +44,32 @@ namespace ECommerce.API.Controllers
 
             var wishlist = await _context.Wishlist.Where(x => x.fk_UserId == id).ToListAsync();
             var products = await _context.Products.ToListAsync();
-            
 
-            //var intersection = wishlist.IntersectBy(products.Select(x => x.ProductId), (y) => y.fk_ProductId).ToList();
-            //intersection.ForEach(x => x.Products = products.Where(y => y.ProductId == x.fk_ProductId));
+           
 
-            var intersection = (from w in wishlist
-                                join p in products on w.fk_ProductId equals p.ProductId
-                                select new Wishlist
-                                {
-                                    fk_ProductId = p.ProductId,
-                                    fk_UserId = id,
-                                    Products = new Product (p.ProductId, p.ProductName, p.ProductQuantity, p.ProductPrice, p.ProductDescription, p.ProductImage)
-                                }
-                                ).ToList();
 
-            if (wishlist == null)
+            List<Product> intersection = products.IntersectBy(wishlist.Select(x => x.fk_ProductId), (y) => y.ProductId).ToList();
+            List<Product> updatedList= new List<Product>();
+            foreach (var product in intersection)
+            {
+                foreach(var item in wishlist)
+                {
+                    if (product.ProductId == item.fk_ProductId)
+                    {
+                        var temp = product;
+                        temp.ProductId = item.WishlistId;
+                        updatedList.Add(temp);
+                    }
+                }
+            }
+           
+            if (intersection == null)
             {
                 return NotFound();
             }
-
             return intersection;
         }
-        /*
-        // GET: api/Wishlists/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<Wishlist>>> GetWishlistId(int? id, Wishlist wishlist)
-        {
-            if (_context.Wishlist == null)
-            {
-                return NotFound();
-            }
 
-            //var wishlists = await _context.Wishlist.Where(x => x.fk_UserId == id).ToListAsync();
-            var wishlistItems = await _context.Wishlist.Where(x => (x.fk_UserId == wishlist.fk_UserId && x.fk_ProductId == wishlist.fk_ProductId)).ToListAsync();
-            //var products = await _context.Products.ToListAsync();
-
-            //var intersection = wishlist.IntersectBy(products.Select(x => x.ProductId), (y) => y.fk_ProductId).ToList();
-
-            if (wishlist == null)
-            {
-                return NotFound();
-            }
-
-            return wishlistItems;
-        }
-        */
         // PUT: api/Wishlists/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -162,3 +142,60 @@ namespace ECommerce.API.Controllers
         }
     }
 }
+
+/*
+foreach (var item in query)
+{
+    Wishlist tempWishlist= new Wishlist();
+    tempWishlist.fk_UserId = item.fkUserId;
+    tempWishlist.fk_ProductId= item.fkProductId;
+    if (tempWishlist.Products is not null)
+    {
+        tempWishlist.Products.ProductId = item.productId;
+        tempWishlist.Products.ProductName = item.productName;
+        tempWishlist.Products.ProductQuantity= item.productQuantity;
+        tempWishlist.Products.ProductPrice = item.productPrice;
+        tempWishlist.Products.ProductDescription = item.productDescription;
+        tempWishlist.Products.ProductImage= item.productImage;
+    }
+
+
+    intersection.Add( tempWishlist );
+}
+
+ var query = (from w in wishlist
+                         join p in products on w.fk_ProductId equals p.ProductId
+                         select new
+                         {
+                             fkProductId = p.ProductId,
+                             fkUserId = id,
+                             productId = p.ProductId,
+                             productName = p.ProductName,
+                             productQuantity = p.ProductQuantity,
+                             productDescription = p.ProductDescription,
+                             productPrice = p.ProductPrice,
+                             productImage = p.ProductImage
+                         }
+                        );
+
+
+ List<Product> myProducts = new List<Product>();
+
+            for (int i = 0; i < wishlist.Count; i++)
+            {
+                Console.WriteLine("----------------------------------------------------Wishlist id: " + wishlist[i].WishlistId);
+                for (int j = 0; j < products.Count; j++)
+                {
+                    Console.WriteLine("----------------------------------------------------Product id: " + products[j].ProductId);
+                    if (wishlist[i].fk_ProductId == products[j].ProductId)
+                    {
+                        var temp = products[j].ProductId;
+                        products[j].ProductId = wishlist[i].WishlistId;
+
+                        myProducts.Add(products[j]);
+                        myProducts.ForEach(x => Console.WriteLine(x.ProductId));
+                        products[j].ProductId = temp;
+                    }
+                }
+            }
+*/

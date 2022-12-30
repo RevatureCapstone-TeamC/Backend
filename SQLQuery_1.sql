@@ -7,19 +7,17 @@
 /*******************************************************************************
    Drop Constraints
 ********************************************************************************/
-ALTER TABLE [ecd].[Wishlist] DROP CONSTRAINT [fk_ProductId];
+ALTER TABLE [ecd].[Wishlist] DROP CONSTRAINT [ProductId];
 GO
-ALTER TABLE [ecd].[Wishlist] DROP CONSTRAINT [fk_UserId];
-GO
-
-ALTER TABLE [ecd].[Deals] DROP CONSTRAINT [fk_Product_Id];
-GO
-ALTER TABLE [ecd].[Deals] DROP CONSTRAINT [fk_User_Id];
+ALTER TABLE [ecd].[Wishlist] DROP CONSTRAINT [UserId];
 GO
 
-ALTER TABLE [ecd].[Cart] DROP CONSTRAINT [fk_ProductID];
+ALTER TABLE [ecd].[Deals] DROP CONSTRAINT [Product_Id];
 GO
-ALTER TABLE [ecd].[Cart] DROP CONSTRAINT [fk_UserID];
+
+ALTER TABLE [ecd].[Cart] DROP CONSTRAINT [Product-ID];
+GO
+ALTER TABLE [ecd].[Cart] DROP CONSTRAINT [User-ID];
 GO
 /*******************************************************************************
    Drop Tables
@@ -214,3 +212,9 @@ INSERT INTO ecd.Wishlist(fk_ProductId, fk_UserId)
 
 SELECT * FROM [ecd].Users;
 SELECT * FROM [ecd].Products;
+SELECT * FROM [ecd].Wishlist;
+
+SELECT * FROM [ecd].Wishlist 
+INNER JOIN [ecd].Products
+ON fk_ProductId = ProductId
+WHERE [ecd].[Wishlist].fk_UserId = 1;

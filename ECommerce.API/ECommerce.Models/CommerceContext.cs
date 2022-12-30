@@ -9,9 +9,9 @@ public class CommerceContext : DbContext
 
     public DbSet<Product> Products { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
-    public DbSet<Wishlist> Wishlists { get; set; } = null!;
+    public DbSet<Wishlist> Wishlist { get; set; } = null!;
     public DbSet<Deal> Deals { get; set; } = null!;
-    public DbSet<Cart> Carts { get; set; } = null!;
+    public DbSet<Cart> Cart { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelbuilder){
         modelbuilder.Entity<Product>(entity =>

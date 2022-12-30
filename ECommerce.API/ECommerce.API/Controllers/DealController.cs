@@ -69,6 +69,25 @@ public class DealController : ControllerBase
         return NoContent();
     }
 
+    [HttpDelete]
+    public async Task<IActionResult> DeleteDeals(){
+        //Should we check that deals is non-empty here first?
+        var deals = await _context.Deals.ToListAsync();
+
+        if (!deals.Any()) 
+            return BadRequest("No deals to delete...");
+
+        try {
+            _context.Deals.RemoveRange(deals);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception e){
+            return BadRequest($"Something happened while clearing deals, exception caught...\n{e.Message}");
+        }
+
+        return NoContent();
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteDeal(int id){
         var deal = await _context.Deals.FindAsync(id);

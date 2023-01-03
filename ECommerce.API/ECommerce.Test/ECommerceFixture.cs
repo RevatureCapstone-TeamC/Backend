@@ -13,7 +13,7 @@ public class ECommerceFixture : IDisposable
 
         // * Seed the DB now
         //User/Auth
-        Context.Users.Add(new User{UserId=1, UserFirstName="John", UserLastName="Doe", UserEmail="Jogn@no.com", UserPassword="JohnDoe", IfAdmin=false});
+        Context.Users.Add(new User{UserId=1, UserFirstName="John", UserLastName="Doe", UserEmail="John@no.com", UserPassword="JohnDoe", IfAdmin=false});
         Context.Users.Add(new User{UserId=2, UserFirstName="Jane", UserLastName="Doe", UserEmail="Jane@no.com", UserPassword="JaneDoe", IfAdmin=false});
         Context.Users.Add(new User{UserId=3, UserFirstName="Johnny", UserLastName="Doe", UserEmail="Johnny@no.com", UserPassword="JohnnyDoe", IfAdmin=false});
         //Products

@@ -46,7 +46,7 @@ namespace ECommerce.API.Controllers
 
         [Route("auth/login")]
         [HttpPost]
-        public async Task<ActionResult<User>> Login([FromBody] User LR)
+        public async Task<ActionResult<User>> Login(User LR)
         {
             /* _logger.LogInformation("auth/login triggered"); */
             

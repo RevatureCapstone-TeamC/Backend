@@ -11,4 +11,36 @@ public class ProductControllerTest
         this._context = context;
         this._output = output;
     }
+
+    [Fact]
+    public async void GetOneReturnsNotFound(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void GetOneReturnsProduct(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void GetAllReturnsList(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    // TODO : Write up a test for Purchase()
 }

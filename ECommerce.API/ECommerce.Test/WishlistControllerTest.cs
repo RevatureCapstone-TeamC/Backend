@@ -11,4 +11,96 @@ public class WishlistControllerTest
         this._context = context;
         this._output = output;
     }
+
+    [Fact]
+    public async void GetWishlistReturnsList(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void GetWishlistProductsReturnsNotFound(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void GetWishlistProductsReturnsProductList(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void PutWishlistReturnsBadRequest(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void PutWishlistReturnsNotFound(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void PutWishlistReturnsNoContent(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void PostWishlistReturnsCreated(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void DeleteWishlistReturnsNotFound(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void DeleteWishlistReturnsNoContent(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    
 }

@@ -12,5 +12,53 @@ public class AuthControllerTest
         this._output = output;
     }
 
-    
+    [Fact]
+    public async void RegisterReturnsBadRequest(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void RegisterReturnsOkAndUser(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void LoginReturnsBadRequest(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void LoginReturnsUser(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
+
+    [Fact]
+    public async void LogoutReturnsOk(){
+        // TODO : IMPLEMENT
+        // * ARRANGE
+
+        // * ACT
+
+        // * ASSERT
+    }
 }

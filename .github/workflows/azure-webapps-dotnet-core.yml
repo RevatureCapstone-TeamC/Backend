@@ -33,9 +33,6 @@ on:
 permissions:
   contents: read
 
-variables: 
-  buildConfiguration: 'Release' 
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -61,9 +58,8 @@ jobs:
         working-directory: 'ECommerce.API'
 
       - name: Test with dotnet
-        run: dotnet test
+        run: dotnet test --configuration Release
         projects: '**/*Test/*.csproj'
-        arguements: '--configuration $(buildConfiguration)'
         working-directory: 'ECommerce.API'
 
       - name: dotnet publish

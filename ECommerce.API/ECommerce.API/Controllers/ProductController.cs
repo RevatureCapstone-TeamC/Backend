@@ -51,7 +51,7 @@ namespace ECommerce.API.Controllers
         }
 
         [HttpPatch]
-        public async Task<ActionResult<Product[]>> Purchase([FromBody] IEnumerable<Product> purchaseProducts)
+        public async Task<ActionResult<Product[]>> Purchase(IEnumerable<Product> purchaseProducts)
         {
             /* _logger.LogInformation("PATCH api/product triggered"); */
             List<Product> products = new List<Product>();

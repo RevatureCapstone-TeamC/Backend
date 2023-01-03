@@ -3,12 +3,12 @@ namespace ECommerce.Test;
 [Collection("ECommerce Collection")]
 public class CartControllerTest
 {
-    private readonly CommerceContext _context;
+    private readonly ECommerceFixture _fixture;
     // ! _output is just for extra logging in the xUnit console
     private readonly ITestOutputHelper _output;
 
-    public CartControllerTest(CommerceContext context, ITestOutputHelper output){
-        this._context = context;
+    public CartControllerTest(ECommerceFixture fixture, ITestOutputHelper output){
+        this._fixture = fixture;
         this._output = output;
     }
 

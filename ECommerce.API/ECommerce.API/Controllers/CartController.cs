@@ -33,20 +33,71 @@ namespace ECommerce.API.Controllers
 
         // GET: api/Carts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Cart>> GetCart(int? id)
+        public async Task<ActionResult<IEnumerable<Product>>> GetCart(int? id)
         {
             if (_context.Cart == null)
             {
                 return NotFound();
             }
-            var cart = await _context.Cart.FindAsync(id);
 
-            if (cart == null)
+            var cart = await _context.Cart.Where(x => x.fk_UserID == id).ToListAsync();
+            var products = await _context.Products.ToListAsync();
+
+            List<Product> intersection = products.IntersectBy(cart.Select(x => x.fk_ProductID), (y) => y.ProductId).ToList();
+            List<Product> updatedList = new List<Product>();
+
+            foreach (var product in intersection)
+            {
+                foreach (var item in cart)
+                {
+                    if (product.ProductId == item.fk_ProductID)
+                    {
+                        var temp = product;
+                        temp.ProductId = item.CartId;
+                        updatedList.Add(temp);
+                    }
+                }
+            }
+
+            if (updatedList == null)
             {
                 return NotFound();
             }
 
-            return cart;
+            return updatedList;
+            /*
+            if (_context.Wishlist == null)
+            {
+                return NotFound();
+            }
+
+            var wishlist = await _context.Wishlist.Where(x => x.fk_UserId == id).ToListAsync();
+            var products = await _context.Products.ToListAsync();
+
+           
+
+
+            List<Product> intersection = products.IntersectBy(wishlist.Select(x => x.fk_ProductId), (y) => y.ProductId).ToList();
+            List<Product> updatedList= new List<Product>();
+            foreach (var product in intersection)
+            {
+                foreach(var item in wishlist)
+                {
+                    if (product.ProductId == item.fk_ProductId)
+                    {
+                        var temp = product;
+                        temp.ProductId = item.WishlistId;
+                        updatedList.Add(temp);
+                    }
+                }
+            }
+           
+            if (intersection == null)
+            {
+                return NotFound();
+            }
+            return intersection;
+             */
         }
 
         // PUT: api/Carts/5

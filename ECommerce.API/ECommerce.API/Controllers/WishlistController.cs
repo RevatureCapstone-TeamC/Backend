@@ -67,7 +67,7 @@ namespace ECommerce.API.Controllers
             {
                 return NotFound();
             }
-            return intersection;
+            return updatedList;
         }
 
         // PUT: api/Wishlists/5

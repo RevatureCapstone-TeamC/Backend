@@ -24,7 +24,7 @@ namespace ECommerce.API.Controllers
         // * Create a user, returns either BadRequest (400) or CreatedAtAction (201) response
         [Route("auth/register")]
         [HttpPost]
-        public async Task<ActionResult> Register([FromBody] User newUser)
+        public async Task<ActionResult> Register(User newUser)
         {
             /* _logger.LogInformation("auth/register triggered"); */
             

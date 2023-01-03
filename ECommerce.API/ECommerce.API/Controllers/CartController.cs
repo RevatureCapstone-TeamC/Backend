@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; 
 using ECommerce.Models;
+using Microsoft.AspNetCore.Mvc.Razor.Infrastructure;
 
 namespace ECommerce.API.Controllers
 {
@@ -43,21 +44,34 @@ namespace ECommerce.API.Controllers
             var cart = await _context.Cart.Where(x => x.fk_UserID == id).ToListAsync();
             var products = await _context.Products.ToListAsync();
 
-            List<Product> intersection = products.IntersectBy(cart.Select(x => x.fk_ProductID), (y) => y.ProductId).ToList();
+            //List<Product> intersection = products.IntersectBy(cart.Select(x => x.fk_ProductID), (y) => y.ProductId).ToList();
+            //List<Product> interv2 = intersection;
             List<Product> updatedList = new List<Product>();
 
-            foreach (var product in intersection)
+            foreach (var item in cart)
             {
-                foreach (var item in cart)
+                foreach (var product in products)
                 {
                     if (product.ProductId == item.fk_ProductID)
                     {
-                        var temp = product;
+                        Product temp = new Product();
+                        temp.ProductId = product.ProductId;
+                        temp.ProductPrice = product.ProductPrice;
+                        temp.ProductDescription = product.ProductDescription;
+                        temp.ProductQuantity = product.ProductQuantity;
+                        temp.ProductName = product.ProductName;
+                        temp.ProductImage = product.ProductImage;
+
                         temp.ProductId = item.CartId;
                         updatedList.Add(temp);
                     }
                 }
             }
+
+            //for (int i = 0; i < intersection.Count; i++)
+            //{
+
+            //}
 
             if (updatedList == null)
             {
@@ -65,39 +79,7 @@ namespace ECommerce.API.Controllers
             }
 
             return updatedList;
-            /*
-            if (_context.Wishlist == null)
-            {
-                return NotFound();
-            }
 
-            var wishlist = await _context.Wishlist.Where(x => x.fk_UserId == id).ToListAsync();
-            var products = await _context.Products.ToListAsync();
-
-           
-
-
-            List<Product> intersection = products.IntersectBy(wishlist.Select(x => x.fk_ProductId), (y) => y.ProductId).ToList();
-            List<Product> updatedList= new List<Product>();
-            foreach (var product in intersection)
-            {
-                foreach(var item in wishlist)
-                {
-                    if (product.ProductId == item.fk_ProductId)
-                    {
-                        var temp = product;
-                        temp.ProductId = item.WishlistId;
-                        updatedList.Add(temp);
-                    }
-                }
-            }
-           
-            if (intersection == null)
-            {
-                return NotFound();
-            }
-            return intersection;
-             */
         }
 
         // PUT: api/Carts/5

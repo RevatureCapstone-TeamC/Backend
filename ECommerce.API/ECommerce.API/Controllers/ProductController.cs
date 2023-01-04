@@ -53,19 +53,23 @@ namespace ECommerce.API.Controllers
         [HttpPatch]
         public async Task<ActionResult<Product[]>> Purchase(IEnumerable<Product> purchaseProducts)
         {
+
+            Console.WriteLine("------------------------ " + purchaseProducts.Count());
             /* _logger.LogInformation("PATCH api/product triggered"); */
             List<Product> products = new List<Product>();
             try
             {
-                foreach(Product item in purchaseProducts)
+                Console.WriteLine("------------------------ Inside try block");
+                foreach (Product item in purchaseProducts)
                 {
+                    Console.WriteLine("------------------------ foreach " + item.ProductName, item.ProductId);
                     /* Product tmp = await _repo.GetProductByIdAsync(item.id); */
                     var tmp = _context.Products.SingleOrDefault(p => 
-                        p.ProductId == item.ProductId);
-                    if ((tmp.ProductQuantity - item.ProductQuantity) >= 0)
+                        p.ProductName == item.ProductName);
+                    if ((tmp.ProductQuantity - 1) >= 0)
                     {
                         /* await _repo.ReduceInventoryByIdAsync(item.ProductId, item.ProductQuantity); */
-                        tmp.ProductQuantity -= item.ProductQuantity;
+                        tmp.ProductQuantity -= 1;
                         await _context.SaveChangesAsync();
                         /* products.Add(await _repo.GetProductByIdAsync(item.id)); */
                         products.Add(await _context.Products.FindAsync(item.ProductId));

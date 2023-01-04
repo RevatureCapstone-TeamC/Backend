@@ -39,9 +39,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set Connection String in App Settings
       - uses: microsoft/variable-substitution@v1 
       with:
-        files: 'appsettings.json'
+        files: 'ECommerceAPI/ECommerceAPI/appsettings.json'
       env:
         ConnectionStrings.ECommerce: ${{ secrets.DB_CONNECTION_STRING }}
       

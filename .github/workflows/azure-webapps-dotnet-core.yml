@@ -18,9 +18,7 @@
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
 name: Build and deploy ASP.Net Core app to an Azure Web App
-uses: microsoft/variable-substitution@v1
-  with:
-    files: '${{env.DOTNET_ROOT}}/myapp/appsettings.json'
+
 env:
   AZURE_WEBAPP_NAME: webapi-p3    # set this to the name of your Azure Web App
   AZURE_WEBAPP_PACKAGE_PATH: './ECommerceAPI'      # set this to the path to your web app project, defaults to the repository root

@@ -39,6 +39,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: echo stuff
         run: 'echo ${{env.DOTNET_ROOT}}'
 
       - name: Set Connection String in App Settings

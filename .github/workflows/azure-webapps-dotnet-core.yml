@@ -39,16 +39,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: echo stuff
-        run: 'echo ${{env.DOTNET_ROOT}}'
-
-      - name: Set Connection String in App Settings
-        uses: microsoft/variable-substitution@v1 
-        with:
-          files: '${{env.DOTNET_ROOT}}/myapp/appsettings.json'
-        env:
-          ConnectionStrings.ECommerce: ${{ secrets.DB_CONNECTION_STRING }}
       
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v2
@@ -66,6 +56,13 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
         working-directory: 'ECommerce.API'
+
+      - name: Set Connection String in App Settings
+        uses: microsoft/variable-substitution@v1 
+        with:
+          files: '${{env.DOTNET_ROOT}}/myapp/appsettings.json'
+        env:
+          ConnectionStrings.ECommerce: ${{ secrets.DB_CONNECTION_STRING }}
 
       - name: Test with dotnet
         run: dotnet test --configuration Release

@@ -43,7 +43,7 @@ namespace ECommerce.API.Controllers
 
             var cart = await _context.Cart.Where(x => x.fk_UserID == id).ToListAsync();
             var products = await _context.Products.ToListAsync();
-
+            var deals = await _context.Deals.ToListAsync();
             //List<Product> intersection = products.IntersectBy(cart.Select(x => x.fk_ProductID), (y) => y.ProductId).ToList();
             //List<Product> interv2 = intersection;
             List<Product> updatedList = new List<Product>();
@@ -55,8 +55,15 @@ namespace ECommerce.API.Controllers
                     if (product.ProductId == item.fk_ProductID)
                     {
                         Product temp = new Product();
+                        var deal = deals.Where(d => d.fk_Product_Id == product.ProductId).ToList();
+                        if (deal != null && deal.Any())
+                        {
+                            temp.ProductPrice = deal[0].SalePrice;
+                        } else
+                        {
+                            temp.ProductPrice = product.ProductPrice;
+                        }
                         temp.ProductId = product.ProductId;
-                        temp.ProductPrice = product.ProductPrice;
                         temp.ProductDescription = product.ProductDescription;
                         temp.ProductQuantity = product.ProductQuantity;
                         temp.ProductName = product.ProductName;

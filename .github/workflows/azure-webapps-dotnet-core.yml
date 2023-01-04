@@ -39,6 +39,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        run: 'echo ${{env.DOTNET_ROOT}}'
 
       - name: Set Connection String in App Settings
         uses: microsoft/variable-substitution@v1 

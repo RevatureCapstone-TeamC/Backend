@@ -53,16 +53,12 @@ namespace ECommerce.API.Controllers
         [HttpPatch]
         public async Task<ActionResult<Product[]>> Purchase(IEnumerable<Product> purchaseProducts)
         {
-
-            Console.WriteLine("------------------------ " + purchaseProducts.Count());
             /* _logger.LogInformation("PATCH api/product triggered"); */
             List<Product> products = new List<Product>();
             try
             {
-                Console.WriteLine("------------------------ Inside try block");
                 foreach (Product item in purchaseProducts)
                 {
-                    Console.WriteLine("------------------------ foreach " + item.ProductName, item.ProductId);
                     /* Product tmp = await _repo.GetProductByIdAsync(item.id); */
                     var tmp = _context.Products.SingleOrDefault(p => 
                         p.ProductName == item.ProductName);

@@ -57,13 +57,6 @@ jobs:
         run: dotnet build --configuration Release
         working-directory: 'ECommerce.API'
 
-      - name: Set Connection String in App Settings
-        uses: microsoft/variable-substitution@v1 
-        with:
-          files: '${{env.DOTNET_ROOT}}/myapp/appsettings.json'
-        env:
-          ConnectionStrings.ECommerce: ${{ secrets.DB_CONNECTION_STRING }}
-
       - name: Test with dotnet
         run: dotnet test --configuration Release
         working-directory: 'ECommerce.API'
@@ -71,6 +64,13 @@ jobs:
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
         working-directory: 'ECommerce.API'
+
+      - name: Set Connection String in App Settings
+        uses: microsoft/variable-substitution@v1 
+        with:
+          files: '${{env.DOTNET_ROOT}}/myapp/appsettings.json'
+        env:
+          ConnectionStrings.ECommerce: ${{ secrets.DB_CONNECTION_STRING }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3

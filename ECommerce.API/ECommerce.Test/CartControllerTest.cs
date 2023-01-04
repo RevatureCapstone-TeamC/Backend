@@ -16,91 +16,135 @@ public class CartControllerTest
     // !    test for a null Cart DbSet
     [Fact]
     public async void GetCartReturnsListOfCarts(){
-        // TODO : IMPLEMENT
         // * ARRANGE
+        var controller = new CartController(_fixture.Context);
 
         // * ACT
+        var result = await controller.GetCart();
+        _output.WriteLine($"GetCart() returns: {result}");
 
         // * ASSERT
+        Assert.IsType<List<Cart>>(result.Value);
     }
 
     [Fact]
-    public async void GetCartIDReturnsNotFound(){
-        // TODO : IMPLEMENT
+    public async void GetCartIDReturnsEmptyList(){
         // * ARRANGE
+        var controller = new CartController(_fixture.Context);
+        int uid=5;
 
         // * ACT
+        var result = await controller.GetCart(uid);
+        _output.WriteLine($"GetCart({uid}) returns: {result}");
 
         // * ASSERT
+        Assert.IsType<List<Product>>(result.Value);
+        Assert.Empty(result.Value);
     }
 
     [Fact]
-    public async void GetCartIDReturnsCartItem(){
+    public async void GetCartIDReturnsProductList(){
         // TODO : IMPLEMENT
         // * ARRANGE
+        var controller = new CartController(_fixture.Context);
+        int uid = 1;
 
         // * ACT
+        var result = await controller.GetCart(uid);
+        _output.WriteLine($"GetCart({uid}) returns: {result}");
 
         // * ASSERT
+        Assert.IsType<List<Product>>(result.Value);
+        Assert.NotEmpty(result.Value);
     }
 
     [Fact]
     public async void PutCartReturnsBadRequest(){
         // TODO : IMPLEMENT
         // * ARRANGE
+        var controller = new CartController(_fixture.Context);
+        int cid = 5;
+        var tmpC = (await controller.GetCart()).Value!.First();
 
         // * ACT
+        var result = await controller.PutCart(cid, tmpC);
+        _output.WriteLine($"PutCart() returns: {result}");
 
         // * ASSERT
+        Assert.IsType<Microsoft.AspNetCore.Mvc.BadRequestResult>(result);
     }
     
     [Fact]
     public async void PutCartReturnsNotFound(){
-        // TODO : IMPLEMENT
         // * ARRANGE
+        var controller = new CartController(_fixture.Context);
+        int cid=20;
+        Cart tmpC = new Cart{CartId=cid, fk_UserID=2, fk_ProductID=4};
 
         // * ACT
+        var result = await controller.PutCart(cid, tmpC);
+        _output.WriteLine($"PutCart() returns: {result}");
 
         // * ASSERT
+        Assert.IsType<Microsoft.AspNetCore.Mvc.NotFoundResult>(result);
     }
 
     [Fact]
     public async void PutCartReturnsNoContent(){
-        // TODO : IMPLEMENT
         // * ARRANGE
+        var controller = new CartController(_fixture.Context);
+        int cid = 1;
+        var tmpC = (await controller.GetCart()).Value!.First();
+        tmpC.fk_ProductID = 2;
 
         // * ACT
+        var result = await controller.PutCart(cid, tmpC);
+        tmpC = (await controller.GetCart()).Value!.First();
+        _output.WriteLine($"GetCart() returns: {result}\nCart[{cid}] product: {tmpC.fk_ProductID}");
 
         // * ASSERT
+        Assert.IsType<Microsoft.AspNetCore.Mvc.NoContentResult>(result);
     }
 
     [Fact]
     public async void PostCartReturnsCreated(){
-        // TODO : IMPLEMENT
         // * ARRANGE
+        var controller = new CartController(_fixture.Context);
+        Cart tmpC = new Cart{fk_UserID=3, fk_ProductID=4};
 
         // * ACT
+        var result = await controller.PostCart(tmpC);
+        _output.WriteLine($"PostCart() returns: {result}");
 
         // * ASSERT
+        Assert.IsType<Microsoft.AspNetCore.Mvc.CreatedAtActionResult>(result.Result);
     }
 
     [Fact]
     public async void DeleteCartReturnsNotFound(){
-        // TODO : IMPLEMENT
         // * ARRANGE
+        var controller = new CartController(_fixture.Context);
+        int cid = 15;
 
         // * ACT
+        var result = await controller.DeleteCart(cid);
+        _output.WriteLine($"DeleteCart({cid}) returns: {result}");
 
         // * ASSERT
+        Assert.IsType<Microsoft.AspNetCore.Mvc.NotFoundResult>(result);
     }
 
     [Fact]
     public async void DeleteCartReturnsNoContent(){
-        // TODO : IMPLEMENT
         // * ARRANGE
+        var controller = new CartController(_fixture.Context);
+        int cid = 4;
 
         // * ACT
+        var result = await controller.DeleteCart(cid);
+        _output.WriteLine($"DeleteCart({cid}) returns: {result}");
 
         // * ASSERT
+        Assert.IsType<Microsoft.AspNetCore.Mvc.NoContentResult>(result);
     }
 }

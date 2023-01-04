@@ -22,15 +22,15 @@ public class ECommerceFixture : IDisposable
         Context.Products.Add(new Product{ProductId=3, ProductName="Lenovo Thinkpad", ProductQuantity=3, ProductPrice=(decimal)599.94, ProductDescription="Desc 3", ProductImage="URL3"});
         Context.Products.Add(new Product{ProductId=4, ProductName="Corsair K70 Mk II", ProductQuantity=6, ProductPrice=(decimal)240.00, ProductDescription="Desc 4", ProductImage="URL4"});
         //Cart
-        Context.Cart.Add(new Cart{CartId=1, ProductId=3, UserId=1});
-        Context.Cart.Add(new Cart{CartId=2, ProductId=4, UserId=1});
-        Context.Cart.Add(new Cart{CartId=3, ProductId=1, UserId=2});
-        Context.Cart.Add(new Cart{CartId=4, ProductId=2, UserId=2});
+        Context.Cart.Add(new Cart{CartId=1, fk_ProductID=3, fk_UserID=1});
+        Context.Cart.Add(new Cart{CartId=2, fk_ProductID=4, fk_UserID=1});
+        Context.Cart.Add(new Cart{CartId=3, fk_ProductID=1, fk_UserID=2});
+        Context.Cart.Add(new Cart{CartId=4, fk_ProductID=2, fk_UserID=2});
         //Deal
         Context.Deals.Add(new Deal{DealId=1, fk_Product_Id=3, SalePrice=(decimal)450.50});
         Context.Deals.Add(new Deal{DealId=2, fk_Product_Id=4, SalePrice=(decimal)200.05});
         //Wishlist
-        Context.Wishlist.Add(new Wishlist{WishlistId=1, fk_ProductId=5, fk_UserId=3});
+        Context.Wishlist.Add(new Wishlist{WishlistId=1, fk_ProductId=4, fk_UserId=3});
         Context.Wishlist.Add(new Wishlist{WishlistId=2, fk_ProductId=1, fk_UserId=1});
 
         // * Save the changes now before starting

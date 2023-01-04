@@ -58,4 +58,36 @@ public class ProductControllerTest
     }
 
     // TODO : Write up a test for Purchase()
+    [Fact]
+    public async void PurchaseReturnsBadRequest(){
+        // * ARRANGE
+        var controller = new ProductController(_fixture.Context);
+        List<Product> tmpPL = new List<Product>{
+            new Product{ProductName="Altoid Mint"},
+            new Product{ProductName="Altoid Mint"},
+            new Product{ProductName="Altoid Mint"}
+        };
+
+        // * ACT
+        var result = await controller.Purchase(tmpPL);
+
+        // * ASSERT
+        Assert.IsType<Microsoft.AspNetCore.Mvc.BadRequestResult>(result.Result);
+    }
+
+    [Fact]
+    public async void PurchaseReturnsOk(){
+        // * ARRANGE
+        var controller = new ProductController(_fixture.Context);
+        List<Product> tmpPL = new List<Product>{
+            new Product{ProductName="Corsair K70 Mk II"},
+            new Product{ProductName="Corsair K70 Mk II"}
+        };
+
+        // * ACT
+        var result = await controller.Purchase(tmpPL);
+
+        // * ASSERT
+        Assert.IsType<Microsoft.AspNetCore.Mvc.OkObjectResult>(result.Result);
+    }
 }

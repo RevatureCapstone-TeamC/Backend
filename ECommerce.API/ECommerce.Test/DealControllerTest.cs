@@ -140,7 +140,7 @@ public class DealControllerTest
     public async void DeleteDealIDReturnsNoContent(){
         // * ARRANGE
         var controller = new DealController(_fixture.Context);
-        int id = 2;
+        int id = 1;
 
         // * ACT
         var result = await controller.DeleteDeal(id);

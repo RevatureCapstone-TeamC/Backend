@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; 
 using ECommerce.Models;
+using Microsoft.AspNetCore.Mvc.Razor.Infrastructure;
 
 namespace ECommerce.API.Controllers
 {
@@ -33,20 +34,52 @@ namespace ECommerce.API.Controllers
 
         // GET: api/Carts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Cart>> GetCart(int? id)
+        public async Task<ActionResult<IEnumerable<Product>>> GetCart(int? id)
         {
             if (_context.Cart == null)
             {
                 return NotFound();
             }
-            var cart = await _context.Cart.FindAsync(id);
 
-            if (cart == null)
+            var cart = await _context.Cart.Where(x => x.fk_UserID == id).ToListAsync();
+            var products = await _context.Products.ToListAsync();
+
+            //List<Product> intersection = products.IntersectBy(cart.Select(x => x.fk_ProductID), (y) => y.ProductId).ToList();
+            //List<Product> interv2 = intersection;
+            List<Product> updatedList = new List<Product>();
+
+            foreach (var item in cart)
+            {
+                foreach (var product in products)
+                {
+                    if (product.ProductId == item.fk_ProductID)
+                    {
+                        Product temp = new Product();
+                        temp.ProductId = product.ProductId;
+                        temp.ProductPrice = product.ProductPrice;
+                        temp.ProductDescription = product.ProductDescription;
+                        temp.ProductQuantity = product.ProductQuantity;
+                        temp.ProductName = product.ProductName;
+                        temp.ProductImage = product.ProductImage;
+
+                        temp.ProductId = item.CartId;
+                        updatedList.Add(temp);
+                    }
+                }
+            }
+
+            //for (int i = 0; i < intersection.Count; i++)
+            //{
+
+            //}
+
+            if (updatedList == null)
             {
                 return NotFound();
             }
 
-            return cart;
+            return updatedList;
+
         }
 
         // PUT: api/Carts/5

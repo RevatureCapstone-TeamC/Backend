@@ -77,7 +77,6 @@ namespace ECommerce.API.Controllers
                 foreach (Product item in purchaseProducts)
                 {
                     /* Product tmp = await _repo.GetProductByIdAsync(item.id); */
-                    Console.WriteLine("=================================== {0}", item.ProductName);
                     var tmp = _context.Products.SingleOrDefault(p =>
                         p.ProductName == item.ProductName);
                     if ((tmp.ProductQuantity - item.ProductQuantity) >= 0)
@@ -102,40 +101,5 @@ namespace ECommerce.API.Controllers
                 /* _logger.LogWarning("PATCH api/product completed with errors"); */
             }
         }
-        /*
-        public async Task<ActionResult<Product[]>> Purchase(IEnumerable<Product> purchaseProducts)
-        {
-
-            Console.WriteLine("------------------------ " + purchaseProducts.Count());
-            List<Product> products = new List<Product>();
-            try
-            {
-                Console.WriteLine("------------------------ Inside try block");
-                foreach (Product item in purchaseProducts)
-                {
-                    Console.WriteLine("------------------------ foreach " + item.ProductName, item.ProductId);
-                    var tmp = _context.Products.SingleOrDefault(p => 
-                        p.ProductName == item.ProductName);
-                    if ((tmp.ProductQuantity - 1) >= 0)
-                    {
-                        tmp.ProductQuantity -= 1;
-                        await _context.SaveChangesAsync();
-                        /* products.Add(await _repo.GetProductByIdAsync(item.id)); 
-                        products.Add(await _context.Products.FindAsync(item.ProductId));
-                    }
-                    else
-                    {
-                        throw new Exception("Insuffecient inventory.");
-                    }
-                }
-                return Ok(products);
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
-         */
-
     }
 }

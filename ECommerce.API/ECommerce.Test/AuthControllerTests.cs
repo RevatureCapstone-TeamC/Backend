@@ -1,5 +1,3 @@
-
-
 namespace ECommerce.Test;
 
 [Collection("ECommerce Collection")]
@@ -14,23 +12,9 @@ public class AuthControllerTest
         this._output = output;
     }
 
-    // * Register should return a 400 when email or password are not unique
-    // ! Looks like the SQLServer DB's checks don't necessarily work with an in-memory DB
-    /* [Theory]
-    [InlineData(0, "Temp", "Temp", "John@no.com", "Password", false)]
-    [InlineData(0, "Temp", "Temp", "Temp@no.com", "JohnDoe", false)]
-    public async void RegisterReturnsBadRequest(int id, string fn, string ln, string email, string pw, bool ia){
-        // * ARRANGE
-        var controller = new AuthController(_fixture.Context);
-        User tmpU = new User{UserId=id, UserFirstName=fn, UserLastName=ln, UserEmail=email, UserPassword=pw, IfAdmin=ia};
-
-        // * ACT
-        var result = await controller.Register(tmpU);
-        _output.WriteLine($"Register Output: {result}");
-
-        // * ASSERT
-        Assert.IsType<Microsoft.AspNetCore.Mvc.BadRequestResult>(result);
-    } */
+    // * Register should return a 400 when email is not unique
+    // ! Looks like constraint checks don't necessarily work with an in-memory DB
+    // ? Might look into using a local SQLite db for testing to actually test constraints too 
 
     [Fact]
     public async void RegisterReturnsOkAndUser(){

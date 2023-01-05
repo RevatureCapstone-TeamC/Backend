@@ -13,9 +13,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connValue = builder.Configuration["ECommerce:ConnectionString"];
+//var connValue = builder.Configuration["ECommerce:ConnectionString"];
 
-builder.Services.AddDbContext<CommerceContext>(opt => opt.UseSqlServer(connValue));
+//builder.Services.AddDbContext<CommerceContext>(opt => opt.UseSqlServer(connValue));
 
 //builder.Services.AddScoped<IContext>(provider => provider.GetService<Context>());
 

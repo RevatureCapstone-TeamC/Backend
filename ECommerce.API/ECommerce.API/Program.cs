@@ -21,6 +21,12 @@ builder.Services.AddSwaggerGen();
 
 var ECommerceAPI = "_ECommerceAPI";
 
+var connectionString = builder.Configuration["ConnectionStrings:ECommerce"];
+
+builder.Services.AddDbContext<CommerceContext>(opts =>
+    opts.UseSqlServer(connectionString)
+);
+
 builder.Services.AddCors(options => {
     options.AddPolicy(name: ECommerceAPI,
         policy =>
@@ -32,13 +38,13 @@ builder.Services.AddCors(options => {
         });
 });
 
-var connectionString = builder.Configuration["ConnectionStrings:ECommerce"];
+//var connectionString = builder.Configuration["ConnectionStrings:ECommerce"];
 
 /* builder.Services.AddSingleton<IRepository>
     (sp => new SQLRepository(connectionString, sp.GetRequiredService<ILogger<SQLRepository>>())); */
-builder.Services.AddDbContext<CommerceContext>( opts => 
-    opts.UseSqlServer(connectionString)
-);
+//builder.Services.AddDbContext<CommerceContext>( opts => 
+//    opts.UseSqlServer(connectionString)
+//);
 
 builder.Services.AddMvc().AddControllersAsServices();
 builder.Services.AddControllers();
@@ -53,7 +59,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(MyAllowSpecificOrigins);
+app.UseCors(ECommerceAPI);
 
 app.UseHttpsRedirection();
 

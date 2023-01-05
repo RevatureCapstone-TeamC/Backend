@@ -57,15 +57,12 @@ public class ProductControllerTest
         Assert.NotEmpty(result.Value);
     }
 
-    // TODO : Write up a test for Purchase()
     [Fact]
     public async void PurchaseReturnsBadRequest(){
         // * ARRANGE
         var controller = new ProductController(_fixture.Context);
         List<Product> tmpPL = new List<Product>{
-            new Product{ProductName="Altoid Mint"},
-            new Product{ProductName="Altoid Mint"},
-            new Product{ProductName="Altoid Mint"}
+            new Product{ProductName="Altoid Mint", ProductQuantity=3}
         };
 
         // * ACT
@@ -80,8 +77,7 @@ public class ProductControllerTest
         // * ARRANGE
         var controller = new ProductController(_fixture.Context);
         List<Product> tmpPL = new List<Product>{
-            new Product{ProductName="Corsair K70 Mk II"},
-            new Product{ProductName="Corsair K70 Mk II"}
+            new Product{ProductName="Corsair K70 Mk II", ProductQuantity=2}
         };
 
         // * ACT

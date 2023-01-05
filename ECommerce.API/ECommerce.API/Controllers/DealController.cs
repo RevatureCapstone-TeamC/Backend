@@ -17,12 +17,8 @@ public class DealController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Deal>>> GetDeals(){
-        try {
-            return await _context.Deals.ToListAsync();
-        }
-        catch {
-            return BadRequest();
-        }
+
+        return await _context.Deals.ToListAsync();
     }
 
     [HttpGet("{id}")]

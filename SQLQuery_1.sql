@@ -7,19 +7,17 @@
 /*******************************************************************************
    Drop Constraints
 ********************************************************************************/
-ALTER TABLE [ecd].[Wishlist] DROP CONSTRAINT [fk_ProductId];
+ALTER TABLE [ecd].[Wishlist] DROP CONSTRAINT [ProductId];
 GO
-ALTER TABLE [ecd].[Wishlist] DROP CONSTRAINT [fk_UserId];
-GO
-
-ALTER TABLE [ecd].[Deals] DROP CONSTRAINT [fk_Product_Id];
-GO
-ALTER TABLE [ecd].[Deals] DROP CONSTRAINT [fk_User_Id];
+ALTER TABLE [ecd].[Wishlist] DROP CONSTRAINT [UserId];
 GO
 
-ALTER TABLE [ecd].[Cart] DROP CONSTRAINT [fk_ProductID];
+ALTER TABLE [ecd].[Deals] DROP CONSTRAINT [Product_Id];
 GO
-ALTER TABLE [ecd].[Cart] DROP CONSTRAINT [fk_UserID];
+
+ALTER TABLE [ecd].[Cart] DROP CONSTRAINT [Product-ID];
+GO
+ALTER TABLE [ecd].[Cart] DROP CONSTRAINT [User-ID];
 GO
 /*******************************************************************************
    Drop Tables
@@ -64,7 +62,8 @@ GO
       [UserFirstName] NVARCHAR(255) NOT NULL,
       [UserLastName] NVARCHAR(255) NOT NULL,
       [UserEmail] NVARCHAR(255) UNIQUE NOT NULL,
-      [UserPassword] NVARCHAR(255) UNIQUE NOT NULL,
+      [UserPassword] NVARCHAR(255) NOT NULL,
+      [IfAdmin] BIT DEFAULT 0,
       CHECK ([UserEmail] LIKE '%@%.%')
    );
    GO
@@ -209,7 +208,3 @@ INSERT INTO ecd.Wishlist(fk_ProductId, fk_UserId)
       (3, 1),
       (5, 1),
       (5, 3)
-
-
-SELECT * FROM [ecd].Users;
-SELECT * FROM [ecd].Products;

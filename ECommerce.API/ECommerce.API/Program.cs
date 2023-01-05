@@ -1,8 +1,10 @@
-using Microsoft.EntityFrameworkCore;
+//using ECommerce.Data;
 using ECommerce.Models;
-
+using Microsoft.AspNetCore.DataProtection.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -30,6 +32,16 @@ builder.Services.AddCors(options => {
         });
 });
 
+var connectionString = builder.Configuration["ConnectionStrings:ECommerce"];
+
+/* builder.Services.AddSingleton<IRepository>
+    (sp => new SQLRepository(connectionString, sp.GetRequiredService<ILogger<SQLRepository>>())); */
+builder.Services.AddDbContext<CommerceContext>( opts => 
+    opts.UseSqlServer(connectionString)
+);
+
+builder.Services.AddMvc().AddControllersAsServices();
+builder.Services.AddControllers();
 
 
 var app = builder.Build();
@@ -41,7 +53,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
 

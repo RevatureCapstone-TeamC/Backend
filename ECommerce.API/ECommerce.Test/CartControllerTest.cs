@@ -44,7 +44,6 @@ public class CartControllerTest
 
     [Fact]
     public async void GetCartIDReturnsProductList(){
-        // TODO : IMPLEMENT
         // * ARRANGE
         var controller = new CartController(_fixture.Context);
         int uid = 1;
@@ -60,7 +59,6 @@ public class CartControllerTest
 
     [Fact]
     public async void PutCartReturnsBadRequest(){
-        // TODO : IMPLEMENT
         // * ARRANGE
         var controller = new CartController(_fixture.Context);
         int cid = 5;
@@ -99,8 +97,7 @@ public class CartControllerTest
 
         // * ACT
         var result = await controller.PutCart(cid, tmpC);
-        tmpC = (await controller.GetCart()).Value!.First();
-        _output.WriteLine($"GetCart() returns: {result}\nCart[{cid}] product: {tmpC.fk_ProductID}");
+        _output.WriteLine($"GetCart() returns: {result}\n");
 
         // * ASSERT
         Assert.IsType<Microsoft.AspNetCore.Mvc.NoContentResult>(result);

@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore; 
 using ECommerce.Models;
-using Microsoft.AspNetCore.Mvc.Razor.Infrastructure;
 
 namespace ECommerce.API.Controllers
 {
@@ -25,10 +19,6 @@ namespace ECommerce.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cart>>> GetCart()
         {
-            if (_context.Cart == null)
-            {
-                return NotFound();
-            }
             return await _context.Cart.ToListAsync();
         }
 
@@ -36,16 +26,10 @@ namespace ECommerce.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<Product>>> GetCart(int? id)
         {
-            if (_context.Cart == null)
-            {
-                return NotFound();
-            }
 
             var cart = await _context.Cart.Where(x => x.fk_UserID == id).ToListAsync();
             var products = await _context.Products.ToListAsync();
             var deals = await _context.Deals.ToListAsync();
-            //List<Product> intersection = products.IntersectBy(cart.Select(x => x.fk_ProductID), (y) => y.ProductId).ToList();
-            //List<Product> interv2 = intersection;
             List<Product> updatedList = new List<Product>();
 
             foreach (var item in cart)
@@ -75,18 +59,12 @@ namespace ECommerce.API.Controllers
                 }
             }
 
-            //for (int i = 0; i < intersection.Count; i++)
-            //{
-
-            //}
-
-            if (updatedList == null)
+            if (updatedList is null)
             {
                 return NotFound();
             }
 
             return updatedList;
-
         }
 
         // PUT: api/Carts/5
@@ -125,10 +103,7 @@ namespace ECommerce.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Cart>> PostCart(Cart cart)
         {
-            if (_context.Cart == null)
-            {
-                return Problem("Entity set 'ECommerceAPIContext.Cart'  is null.");
-            }
+            cart.CartId = null;
             _context.Cart.Add(cart);
             await _context.SaveChangesAsync();
 
@@ -139,12 +114,8 @@ namespace ECommerce.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCart(int? id)
         {
-            if (_context.Cart == null)
-            {
-                return NotFound();
-            }
             var cart = await _context.Cart.FindAsync(id);
-            if (cart == null)
+            if (cart is null)
             {
                 return NotFound();
             }

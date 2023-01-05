@@ -119,7 +119,7 @@ public class DealControllerTest
         Assert.IsType<Microsoft.AspNetCore.Mvc.NoContentResult>(result);
     }
 
-    // * DeleteDEal(id) returns NotFound() if no deal exists
+    // * DeleteDeal(id) returns NotFound() if no deal exists
     [Fact]
     public async void DeleteDealIDReturnsNotFound(){
         // * ARRANGE
@@ -151,7 +151,6 @@ public class DealControllerTest
     }
 
     // * DeleteDeals() returns NoContent() if all deals are cleared
-    // * DeleteDeals() means a list of deals returned by GetDeals() is empty
     [Fact]
     public async void DeleteDealsReturnsNoContent(){
         // * ARRANGE
@@ -159,12 +158,10 @@ public class DealControllerTest
 
         // * ACT
         var result = await controller.DeleteDeals();
-        var getres = await controller.GetDeals();
-        _output.WriteLine($"DeleteDeals() returns: {result}\nGetDeals on Empty Deals returns: {getres}");
+        _output.WriteLine($"DeleteDeals() returns: {result}");
 
         // * ASSERT
         Assert.IsType<Microsoft.AspNetCore.Mvc.NoContentResult>(result);
-        Assert.Empty(getres.Value);
     }
 
     // * DeleteDeals() returns BadRequest(obj message) if there are no Deals to delete

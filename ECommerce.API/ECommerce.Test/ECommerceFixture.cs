@@ -37,8 +37,8 @@ public class ECommerceFixture : IDisposable
         Context.SaveChangesAsync();
     }
 
-    public void Dispose()
+    public async void Dispose()
     {
-        Context.Dispose();
+        await Context.DisposeAsync();
     }
 }

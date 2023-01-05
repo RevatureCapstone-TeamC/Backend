@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connValue = builder.Configuration["ConnectionString:ECommerce"];
+var connValue = builder.Configuration["ECommerce:ConnectionString"];
 
 builder.Services.AddDbContext<CommerceContext>(opt => opt.UseSqlServer(connValue));
 

@@ -7,10 +7,22 @@ var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 // Add services to the container.
+builder.Services.AddControllers();
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy( name: MyAllowSpecificOrigins,
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var connValue = builder.Configuration["ECommerce:ConnectionString"];
+
+builder.Services.AddDbContext<Context>(opt => opt.UseSqlServer(connValue));
+
+builder.Services.AddScoped<IContext>(provider => provider.GetService<Context>());
+
+var ECommerceAPI = "_ECommerceAPI";
+
+builder.Services.AddCors(options => {
+    options.AddPolicy(name: ECommerceAPI,
         policy =>
         {
             policy.WithOrigins("http://localhost:4200")
@@ -31,9 +43,6 @@ builder.Services.AddDbContext<CommerceContext>( opts =>
 builder.Services.AddMvc().AddControllersAsServices();
 builder.Services.AddControllers();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 

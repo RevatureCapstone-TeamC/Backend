@@ -1,67 +1,55 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Razor.Infrastructure;
+﻿using Microsoft.AspNetCore.Mvc;
 using ECommerce.Models;
-using ECommerce.Data;
 
 namespace ECommerce.API.Controllers
 {
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IRepository _repo;
-        private readonly ILogger<AuthController> _logger;
+        private readonly CommerceContext _context;
 
-        public AuthController(IRepository repo, ILogger<AuthController> logger)
+        public AuthController(CommerceContext context)
         {
-            this._repo = repo;
-            this._logger = logger;
+            this._context = context;
         }
 
+        // * Create a user, returns either BadRequest (400) or CreatedAtAction (201) response
         [Route("auth/register")]
         [HttpPost]
-        public async Task<ActionResult> Register([FromBody] User newUser)
+        public async Task<ActionResult> Register(User newUser)
         {
-            _logger.LogInformation("auth/register triggered");
-            try
-            {
-                return Ok(await _repo.CreateNewUserAndReturnUserIdAsync(newUser));
-                _logger.LogInformation("auth/register completed successfully");
-            }
-            catch
-            {
-                return BadRequest();
-                _logger.LogWarning("auth/register completed with errors");
-            }
-        }
+            newUser.UserId = null;
+            newUser.IfAdmin = false;
 
+            try {
+                _context.Users.Add(newUser);
+                await _context.SaveChangesAsync();
+            }
+            catch {
+                return BadRequest();
+            }
+            return Ok(newUser);
+            
+        }
 
         [Route("auth/login")]
         [HttpPost]
-        public async Task<ActionResult<User>> Login([FromBody] UserDTO LR)
+        public async Task<ActionResult<User>> Login(User LR)
         {
-            _logger.LogInformation("auth/login triggered");
-            try
-            {
-                return Ok(await _repo.GetUserLoginAsync(LR.password, LR.email));
-                _logger.LogInformation("auth/login completed successfully");
+            
+            var response = _context.Users.Where(u => u.UserEmail==LR.UserEmail 
+                && u.UserPassword == LR.UserPassword).FirstOrDefault();
+            if (response is null) {
+                return BadRequest("Invalid credentials");
             }
-            catch
-            {
-                return BadRequest();
-                _logger.LogWarning("auth/login completed with errors");
-            }
+            return response;
         }
 
         [Route("auth/logout")]
         [HttpPost]
         public ActionResult Logout()
         { 
-            _logger.LogInformation("auth/logout triggered");
             return Ok();
-            _logger.LogInformation("auth/logout completed successfully");
         }
-
     }
 }

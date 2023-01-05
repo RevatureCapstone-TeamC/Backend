@@ -208,13 +208,3 @@ INSERT INTO ecd.Wishlist(fk_ProductId, fk_UserId)
       (3, 1),
       (5, 1),
       (5, 3)
-
-
-SELECT * FROM [ecd].Users;
-SELECT * FROM [ecd].Products;
-SELECT * FROM [ecd].Wishlist;
-
-SELECT * FROM [ecd].Wishlist 
-INNER JOIN [ecd].Products
-ON fk_ProductId = ProductId
-WHERE [ecd].[Wishlist].fk_UserId = 1;

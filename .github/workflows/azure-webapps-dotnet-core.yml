@@ -91,7 +91,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: webapi-p3
+          name: .net-app
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp

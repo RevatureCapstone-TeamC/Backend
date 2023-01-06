@@ -1,6 +1,5 @@
 //using ECommerce.Data;
 using ECommerce.Models;
-using Microsoft.AspNetCore.DataProtection.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

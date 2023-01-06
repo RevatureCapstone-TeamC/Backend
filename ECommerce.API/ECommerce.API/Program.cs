@@ -33,8 +33,8 @@ builder.Services.AddCors(options => {
         {
             policy.WithOrigins("http://localhost:4200", "https://ecommerce-p3.azurewebsites.net")
                    .AllowAnyMethod()
-                   .AllowAnyHeader()
-                   .AllowCredentials();
+                   .AllowAnyHeader();
+                   //.AllowCredentials();
         });
 });
 

@@ -31,10 +31,10 @@ builder.Services.AddCors(options => {
     options.AddPolicy(name: ECommerceAPI,
         policy =>
         {
-            policy.WithOrigins("http://localhost:4200", "https://ecommerce-p3.azurewebsites.net")
+            policy.WithOrigins("http://localhost:4200")
                    .AllowAnyMethod()
-                   .AllowAnyHeader();
-                   //.AllowCredentials();
+                   .AllowAnyHeader()
+                   .AllowCredentials();
         });
 });
 
@@ -51,11 +51,14 @@ builder.Services.AddControllers();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors(ECommerceAPI);
 

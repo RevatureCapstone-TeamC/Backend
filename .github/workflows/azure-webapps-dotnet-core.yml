@@ -54,11 +54,10 @@ jobs:
             ${{ runner.os }}-nuget-
 
       - name: Build with dotnet
-        run: dotnet build ./ECommerce/ECommerce.API --configuration Release
+        run: dotnet build ./ECommerce.API/ECommerce.API --configuration Release
 
 #      - name: Test with dotnet
-#        run: dotnet test --configuration Release
-#        working-directory: 'ECommerce.API'
+#        run: dotnet test ./ECommerce.API/ECommerce.API --configuration Release
 
       - name: dotnet publish
         run: dotnet publish ./ECommerce/ECommerce.API -c Release -o ${{env.DOTNET_ROOT}}/myapp

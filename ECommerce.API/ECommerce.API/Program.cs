@@ -38,7 +38,7 @@ builder.Services.AddCors(options => {
         });
 });
 
-var connectionString = builder.Configuration["ConnectionStrings:ECommerce"];
+//var connectionString = builder.Configuration["ConnectionStrings:ECommerce"];
 
 /* builder.Services.AddSingleton<IRepository>
     (sp => new SQLRepository(connectionString, sp.GetRequiredService<ILogger<SQLRepository>>())); */

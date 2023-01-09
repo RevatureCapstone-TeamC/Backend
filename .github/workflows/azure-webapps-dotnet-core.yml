@@ -42,6 +42,14 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           include-prerelease: true
+      
+      - name: Set up dependency caching for faster builds
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
       - name: Build with dotnet
         run: dotnet build ./ECommerce.API/ECommerce.API --configuration Release
@@ -74,5 +82,5 @@ jobs:
         with:
           app-name: 'p3-windows'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_Win }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_WIN }}
           package: .
